@@ -1,4 +1,6 @@
-const API_BASE = import.meta.env.VITE_API_BASE_URL ?? (import.meta.env.DEV ? "http://localhost:8001" : "");
+// Base API URL for backend services
+const rawUrl = import.meta.env.VITE_API_BASE_URL;
+const API_BASE = (rawUrl && !rawUrl.includes("8002")) ? rawUrl : "http://localhost:8001";
 
 export interface Session {
   session_id: number;
