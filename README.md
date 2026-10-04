@@ -220,27 +220,27 @@ sequenceDiagram
 The UI is built with a bespoke **Cyber-Minimalist Design System** designed for zero-distraction focus during intense research:
 
 ```
-┌────────────────────────────────────────────────────────────────────────────────────────┐
+┌───────────────────────────────────────────────────────────────────────────────────────────┐
 │ ✦ DocSense ── Neural Knowledge OS v1.0   [ Search or ⌘K ]     AI ONLINE | QDRANT 8001 ⚙ │
-├─────────────────┬───────────────────────────────────────┬──────────────────────────────┤
-│ WORKSPACE       │ ✦ NEURAL REASONING TRACE  [0.8s]      │ PDF INSPECTOR                │
-│                 │  ✓ Query Expansion (4 queries)        │ ◄ [ 1 ] / 14 ►  [-] [+] [Fit]│
-│ [+] NEW CHAT    │  ✓ Qdrant Retrieval (24 candidates)   ├──────────────────────────────┤
-│ ◉ Research v1   │  ✓ Cross-Encoder (Top 5 selected)     │                              │
-│ ○ System Specs  │  ✓ Grounded Answer Synthesized        │  Nimbus Forge Technologies   │
-│                 │                                       │  Pvt. Ltd.                   │
-│ ─────────────── │ ## Executive Overview                 │                              │
-│ DOCUMENTS       │                                       │  Founded: 14 February 2021   │
-│ [x] Nimbus.pdf  │ Nimbus Forge Technologies was founded │                              │
-│ [ ] Aster.pdf   │ on **14 February 2021** [1].          │  [ ✦ Ask DocSense about this]│
-│                 │                                       │                              │
-│ ┌─────────────┐ │ ┌───────────────────────────────────┐ │                              │
-│ │ ⇪ Drag PDF  │ │ │ ◉ Nimbus.pdf · Page 1             │ │                              │
-│ │ Stargate    │ │ │ "Nimbus Forge was founded..."     │ │                              │
-│ └─────────────┘ │ └───────────────────────────────────┘ │                              │
-├─────────────────┴───────────────────────────────────────┴──────────────────────────────┤
-│ ✦ Ask DocSense a research question... [Scoping 1 PDF]                        [Enter ↵] │
-└────────────────────────────────────────────────────────────────────────────────────────┘
+├─────────────────┬───────────────────────────────────────┬─────────────────────────────────┤
+│ WORKSPACE       │ ✦ NEURAL REASONING TRACE  [0.8s]      │ PDF INSPECTOR                  │
+│                 │  ✓ Query Expansion (4 queries)        │ ◄ [ 1 ] / 14 ►  [-] [+] [Fit]  │
+│ [+] NEW CHAT    │  ✓ Qdrant Retrieval (24 candidates)   ├─────────────────────────────────┤
+│ ◉ Research v1   │  ✓ Cross-Encoder (Top 5 selected)     │                                │
+│ ○ System Specs  │  ✓ Grounded Answer Synthesized        │  Nimbus Forge Technologies      │
+│                 │                                       │  Pvt. Ltd.                      │
+│ ─────────────── │ ## Executive Overview                 │                                 │
+│ DOCUMENTS       │                                       │  Founded: 14 February 2021      │
+│ [x] Nimbus.pdf  │ Nimbus Forge Technologies was founded │                                 │
+│ [ ] Aster.pdf   │ on **14 February 2021** [1].          │  [ ✦ Ask DocSense about this]   │
+│                 │                                       │                                 │
+│ ┌─────────────┐ │ ┌───────────────────────────────────┐ │                                 │
+│ │ ⇪ Drag PDF  │ │ │ ◉ Nimbus.pdf · Page 1             │ │                                 │
+│ │ Stargate    │ │ │ "Nimbus Forge was founded..."     │ │                                 │
+│ └─────────────┘ │ └───────────────────────────────────┘ │                                 │
+├─────────────────┴───────────────────────────────────────┴─────────────────────────────────┤
+│ ✦ Ask DocSense a research question... [Scoping 1 PDF]                        [Enter ↵]    │
+└───────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
 | Panel | Core Responsibilities |
