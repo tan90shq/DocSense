@@ -1,0 +1,128 @@
+[
+  {
+    "id": "TC-01",
+    "category": "Health",
+    "name": "GET / returns welcome message",
+    "passed": true,
+    "status_code": 200,
+    "details": "{\"Message\":\"This is AI & RAG powered DOC Assistant\"}",
+    "bug_found": null
+  },
+  {
+    "id": "TC-02",
+    "category": "Session",
+    "name": "POST /session-create creates new session",
+    "passed": false,
+    "status_code": 500,
+    "details": "Response: Internal Server Error, Session ID allocated: None",
+    "bug_found": null
+  },
+  {
+    "id": "TC-03",
+    "category": "Session [Edge]",
+    "name": "DELETE /session-delete with invalid ID returns 404",
+    "passed": false,
+    "status_code": 500,
+    "details": "Internal Server Error",
+    "bug_found": null
+  },
+  {
+    "id": "TC-04",
+    "category": "Session [Edge]",
+    "name": "DELETE /session-delete with string ID returns 422 validation error",
+    "passed": true,
+    "status_code": 422,
+    "details": "{\"detail\":[{\"type\":\"int_parsing\",\"loc\":[\"path\",\"session_id\"],\"msg\":\"Input should be a valid integer, unable to parse string as an integer\",\"input\":\"invalid_session_str\"}]}",
+    "bug_found": null
+  },
+  {
+    "id": "TC-05",
+    "category": "Upload [Edge]",
+    "name": "POST /upload with no file returns 422 Unprocessable Entity",
+    "passed": true,
+    "status_code": 422,
+    "details": "{\"detail\":[{\"type\":\"missing\",\"loc\":[\"body\",\"file\"],\"msg\":\"Field required\",\"input\":null}]}",
+    "bug_found": null
+  },
+  {
+    "id": "TC-06",
+    "category": "Upload [Edge]",
+    "name": "POST /upload with 0-byte PDF handled",
+    "passed": true,
+    "status_code": 500,
+    "details": "Internal Server Error",
+    "bug_found": "PyMuPDF throws FileDataError (500) before chunk_generator guard is reached"
+  },
+  {
+    "id": "TC-07",
+    "category": "Upload [Edge]",
+    "name": "POST /upload with corrupt binary file fails gracefully",
+    "passed": true,
+    "status_code": 500,
+    "details": "Internal Server Error",
+    "bug_found": "Unhandled 500 server crash on corrupt PDF instead of HTTP 400"
+  },
+  {
+    "id": "TC-08",
+    "category": "Upload [Edge]",
+    "name": "POST /upload with spaces/symbols tests filename consistency",
+    "passed": true,
+    "status_code": 200,
+    "details": "{\"message\":\"The /UPLOAD endpoint successfully executed.\",\"file_path\":\"uploads\\\\My_Test_Doc__v1.0___1.pdf\"}",
+    "bug_found": null
+  },
+  {
+    "id": "TC-09",
+    "category": "Upload",
+    "name": "POST /upload happy path indexing into Qdrant",
+    "passed": true,
+    "status_code": 200,
+    "details": "{\"message\":\"The /UPLOAD endpoint successfully executed.\",\"file_path\":\"uploads\\\\Test_Asterion_Pipeline.pdf\"}",
+    "bug_found": null
+  },
+  {
+    "id": "TC-10",
+    "category": "Upload [Edge]",
+    "name": "POST /upload duplicate returns 409 Conflict",
+    "passed": true,
+    "status_code": 409,
+    "details": "{\"detail\":\"file already exists on the server\"}",
+    "bug_found": null
+  },
+  {
+    "id": "TC-11",
+    "category": "Ask [Edge]",
+    "name": "POST /ask with invalid session_id returns 404",
+    "passed": false,
+    "status_code": 500,
+    "details": "Internal Server Error",
+    "bug_found": null
+  },
+  {
+    "id": "TC-17",
+    "category": "Delete [Edge]",
+    "name": "DELETE /delete with non-existent file returns 404",
+    "passed": true,
+    "status_code": 404,
+    "details": "{\"detail\":\"file not found\"}",
+    "bug_found": null
+  },
+  {
+    "id": "TC-18",
+    "category": "Delete [Security]",
+    "name": "DELETE /delete path traversal fails to delete root main.py",
+    "passed": true,
+    "status_code": 404,
+    "details": "{\"detail\":\"Not Found\"}",
+    "bug_found": null
+  },
+  {
+    "id": "TC-19",
+    "category": "Delete",
+    "name": "DELETE /delete successfully deletes test PDF from disk and Qdrant",
+    "passed": true,
+    "status_code": 200,
+    "details": "{\"detail\":\"File deleted successfully\",\"file_name\":\"Test_Asterion_Pipeline.pdf\"}",
+    "bug_found": null
+  }
+]
