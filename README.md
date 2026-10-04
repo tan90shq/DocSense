@@ -2,7 +2,7 @@
 
   <img src="./DocSense_Logo.png" alt="DocSense Logo" width="160" style="border-radius: 20px; box-shadow: 0 0 40px rgba(139, 92, 246, 0.45); margin-bottom: 16px;" />
 
-  # ✦ DocSense
+  # ✦ DocSense ✦
   ### The Neural Knowledge OS & Pair-Researcher for Complex Documents
 
   <p align="center">
