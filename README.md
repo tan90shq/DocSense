@@ -24,6 +24,7 @@
   </p>
 
   <p align="center">
+    <a href="#-interactive-demo">Demo Walkthrough</a> •
     <a href="#-executive-overview">Overview</a> •
     <a href="#-key-features--capabilities">Features</a> •
     <a href="#-system-architecture--rag-pipeline">RAG Pipeline</a> •
@@ -34,6 +35,19 @@
     <a href="#-directory-structure">Structure</a>
   </p>
 
+</div>
+
+---
+
+## 🎬 Interactive Demo
+
+<div align="center">
+  <video src="https://github.com/user-attachments/assets/aeada78d-c656-4f01-a1e2-570454f35a09" controls="controls" muted="muted" width="720" style="max-width: 80%; border-radius: 12px; border: 1px solid rgba(139, 92, 246, 0.35); box-shadow: 0 12px 36px rgba(0, 0, 0, 0.65);">
+    Your browser does not support the video tag.
+  </video>
+  <p align="center">
+    <em>DocSense in action: Multi-document scoping, RAG thought trace, and bi-directional PDF citation jump.</em>
+  </p>
 </div>
 
 ---
