@@ -1,0 +1,24 @@
+{
+  "upload_alpha_sec": 0.94,
+  "upload_beta_sec": 0.77,
+  "upload_gamma_sec": 0.71,
+  "rag_latency_p50": 30.97,
+  "rag_latency_p95": 43.64,
+  "rag_latency_avg": 29.27,
+  "rag_samples_count": 22,
+  "concurrency_benchmark": {
+    "workers": 5,
+    "total_requests": 5,
+    "successful_requests": 3,
+    "failed_requests": 2,
+    "success_rate_percent": 60.0,
+    "wall_clock_time_sec": 45.12,
+    "throughput_req_per_sec": 0.11,
+    "min_latency_sec": 5.24,
+    "median_latency_sec": 27.39,
+    "avg_latency_sec": 25.42,
+    "p95_latency_sec": 44.74,
+    "max_latency_sec": 44.74,
+    "failure_cause": "Groq RateLimitError 429 TPM exceeded -> unhandled exception in answer_generator() -> HTTP 500"
+  }
+}

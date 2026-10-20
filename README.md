@@ -33,7 +33,8 @@
     <a href="#-api-reference">API Docs</a> •
     <a href="#-getting-started--installation">Installation</a> •
     <a href="#-environment-configuration">Configuration</a> •
-    <a href="#-directory-structure">Structure</a>
+    <a href="#-directory-structure">Structure</a> •
+    <a href="#-empirical-rag-ablation-study">Ablation Study</a>
   </p>
 
 </div>
@@ -583,6 +584,37 @@ The test harness evaluates:
 - **Upload Edge Cases:** Content-type MIME validation, zero-byte PDFs, corrupt binary files, filename sanitization, duplicate uploads (`409 Conflict`), and unextractable text disk unlinking (`422 Unprocessable Entity`).
 - **RAG Execution:** Multi-query expansion, scoped Qdrant indexing, cross-encoder reranking, grounded answer synthesis, multi-turn chat history, and continuous summary updates.
 - **Security Audit:** Path traversal protection on document deletion endpoints.
+
+---
+
+## 🔬 Empirical RAG Ablation Study
+
+DocSense includes a fully automated, reproducible empirical ablation research suite located in [`reports/DocSense_Ablation_Study/`](./reports/DocSense_Ablation_Study/).
+
+The study evaluates four foundational RAG architectural choices against a multi-document evaluation corpus (`Alpha`, `Beta`, `Gamma`, `Canary` PDFs; 22 Ground-Truth verification pairs):
+
+| Component Evaluated | Baseline Technique | Alternative Technique Tested | Empirical Impact & Strategic Verdict |
+| :--- | :--- | :--- | :--- |
+| **Exp A: Chunking** | **Font-Aware Hierarchical** (PyMuPDF span stats) | Simple Fixed-Window (120 words / 30 words overlap) | **Recall@5: 100.0%, MRR: 0.977.** Font-aware chunking preserves section headings in metadata, ensuring citation jumps point to authoritative headers rather than severed text blocks. |
+| **Exp B: Querying** | **Multi-Query Expansion** (Groq `openai/gpt-oss-120b`) | Single-Query Retrieval ($k=8$ & $k=25$) | **Recall@5: 100.0%.** Single-query is 1.2s faster for direct factoids. Multi-query expansion is recommended selectively for ambiguous, multi-part, or conversational queries. |
+| **Exp C: Reranking** | **Cross-Encoder Reranking** (`ms-marco-MiniLM-L6-v2`) | Bi-Encoder Vector Cosine Similarity | Vector-only achieved **0.977 MRR** at 15.7ms vs **0.955 MRR** with +140ms cross-encoder overhead on small pools ($N \le 10$). Recommends dynamic bypass for small pools. |
+| **Exp D: Memory** | **Rolling Summarization** (Constant ~158 chars) | Stateless (No History) vs. Raw Turn History | Stateless completely fails on conversational pronouns (*"its operational base"*). Rolling summary ensures constant $O(1)$ context tokens without context bloat. |
+
+### Complete Research & Evaluation Documentation
+
+- 🌟 **Interactive Public Showcase:** [`reports/DocSense_Public_Showcase.html`](./reports/DocSense_Public_Showcase.html) *(Cyber-minimalist dashboard with live filtering & ablation bars)*
+- 📑 **Consolidated Master Evaluation Report:** [`reports/DOCSENSE_MASTER_REPORT.md`](./reports/DOCSENSE_MASTER_REPORT.md) *(Definitive 360° synthesis of all audit phases and ablation experiments)*
+- 🔬 **Empirical RAG Ablation Study:** [`reports/DocSense_Ablation_Study/ABLATION_STUDY_REPORT.md`](./reports/DocSense_Ablation_Study/ABLATION_STUDY_REPORT.md)
+- 🧪 **End-to-End Quality & Security Audit:** [`reports/DocSense_Test_Report_2026-10-20_16-55.md`](./reports/DocSense_Test_Report_2026-10-20_16-55.md)
+- 📊 **Tabular Summary Matrix:** [`reports/DocSense_Ablation_Study/summary_results.csv`](./reports/DocSense_Ablation_Study/summary_results.csv)
+- 💾 **Raw Experimental Telemetry:** [`reports/DocSense_Ablation_Study/raw_results.json`](./reports/DocSense_Ablation_Study/raw_results.json)
+- ⚙️ **Reproducible Runner Script:** [`reports/DocSense_Ablation_Study/run_ablation_study.py`](./reports/DocSense_Ablation_Study/run_ablation_study.py)
+
+To reproduce the study locally (instant replay via deterministic LLM cache):
+
+```bash
+python reports/DocSense_Ablation_Study/run_ablation_study.py
+```
 
 ---
 

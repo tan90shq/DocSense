@@ -46,6 +46,7 @@ usable_docs/
 !usable_docs/.gitkeep
 Test_Implementation_Plan.md
 backend/test
+qdrant_db/
 
 # ==========================================
 # Operating System & IDE Files

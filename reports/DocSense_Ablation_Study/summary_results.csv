@@ -1,0 +1,11 @@
+Experiment,Variant,Recall@5,MRR,nDCG@5,Passage Count,Mean Length (Words),Latency,Extra LLM Calls
+Exp A: Chunking,Font-Aware Hierarchical (Baseline),100.0%,0.977,1.041,10,76.8,15.70ms,0
+Exp A: Chunking,Simple Fixed-Window Chunking,100.0%,0.977,1.112,10,80.0,15.22ms,0
+Exp B: Retrieval Querying,Single-Query Operational (Top 8),100.0%,0.977,-,3.3,-,15.88ms,0
+Exp B: Retrieval Querying,Single-Query Budget-Matched (Top 25),100.0%,0.977,-,3.4,-,16.20ms,0
+Exp B: Retrieval Querying,Multi-Query Expansion (Baseline),100.0%,0.977,-,3.3,-,0.1ms + 76.8ms,1
+Exp C: Reranking,Without Reranking (Vector Similarity Only),100.0%,0.977,1.041,Top 5 from Pool,-,0ms overhead,0
+Exp C: Reranking,With Cross-Encoder Reranking (Baseline),100.0%,0.955,1.024,Top 5 from Pool,-,140.46ms overhead,0
+Exp D: Conversation Memory,Rolling Summarization (Baseline),-,-,-,Success: 0.0%,Summary: 158 chars,41.05s,1
+Exp D: Conversation Memory,"No Summary, No History (Stateless)",-,-,-,Success: 0.0%,0 chars,24.34s,0
+Exp D: Conversation Memory,Raw History Injected,-,-,-,Success: 0.0%,Raw: 121 chars,29.20s,0

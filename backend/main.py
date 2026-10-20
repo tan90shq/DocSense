@@ -20,7 +20,7 @@ def data_paster(data, file):
     return data
 
 
-app=FastAPI()
+app=FastAPI(title="DocSense", description="This is AI & RAG powered DOC Assistant")
 
 
 app.add_middleware(
@@ -202,7 +202,16 @@ def chat(user_query:Query, session_id:int):
 
 @app.get("/pdfs")
 def list_pdfs():
-    return data_loader(r"data\all_pdfs.json")
+    registered_pdfs = data_loader(r"data\all_pdfs.json")
+    uploads_dir = Path("uploads")
+    if uploads_dir.exists():
+        for file_path in uploads_dir.iterdir():
+            if file_path.suffix == ".pdf" and file_path.name not in registered_pdfs:
+                try:
+                    file_path.unlink()
+                except Exception:
+                    pass
+    return registered_pdfs
 
 @app.get("/sessions")
 def list_sessions():
