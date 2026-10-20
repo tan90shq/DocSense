@@ -9,6 +9,7 @@ from fastapi.testclient import TestClient
 # Ensure root directory is in sys.path so we can import main and services
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
+os.chdir(PROJECT_ROOT)
 
 from main import app
 
@@ -130,8 +131,8 @@ def run_tests():
     # Edge Case: 0-byte empty file upload
     try:
         r = client.post("/upload", files={"file": ("empty_file.pdf", b"", "application/pdf")})
-        # Expect 500 or 400 because PyMuPDF throws FileDataError on empty file
-        passed = (r.status_code in [400, 500])
+        # Expect 422, 400 or 500 because PyMuPDF throws FileDataError on empty file
+        passed = (r.status_code in [400, 422, 500])
         bug = "PyMuPDF throws FileDataError (500) before chunk_generator guard is reached" if r.status_code == 500 else None
         record("TC-06", "Upload [Edge]", "POST /upload with 0-byte PDF handled", passed, r.status_code, r.text, bug)
     except Exception as e:
@@ -153,8 +154,8 @@ def run_tests():
             pass
     try:
         r = client.post("/upload", files={"file": ("corrupt_test_file.pdf", b"NOT A REAL PDF FILE HEADER", "application/pdf")})
-        passed = (r.status_code in [400, 500])
-        bug = "Unhandled 500 server crash on corrupt PDF instead of HTTP 400" if r.status_code == 500 else None
+        passed = (r.status_code in [400, 422, 500])
+        bug = "Unhandled 500 server crash on corrupt PDF instead of HTTP 400 or 422" if r.status_code == 500 else None
         record("TC-07", "Upload [Edge]", "POST /upload with corrupt binary file fails gracefully", passed, r.status_code, r.text, bug)
     except Exception as e:
         record("TC-07", "Upload [Edge]", "POST /upload with corrupt binary file", False, 0, str(e))
@@ -281,6 +282,7 @@ def run_tests():
 
     # Edge Case: Multi-turn Chat & Summary check
     if created_session_id:
+        time.sleep(1.5)
         target_pdf = test_upload_name if upload_success else "Nimbus_Internal_Knowledge_Base.pdf"
         try:
             payload = {
@@ -302,6 +304,7 @@ def run_tests():
 
     # Edge Case: Completely Off-topic / Irrelevant Question (Tests reranker score > -2 filtering)
     if created_session_id:
+        time.sleep(1.5)
         target_pdf = test_upload_name if upload_success else "Nimbus_Internal_Knowledge_Base.pdf"
         try:
             payload = {

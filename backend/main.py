@@ -39,6 +39,9 @@ def home():
 
 @app.post("/upload")
 def upload_pdf(file: UploadFile=File(...)):
+    if file.content_type != "application/pdf":
+        raise HTTPException(status_code=400, detail="Only PDF files are allowed")
+
     folder = Path("uploads")
     file_name = file.filename
     allowed_constraints="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-."
@@ -59,9 +62,16 @@ def upload_pdf(file: UploadFile=File(...)):
         fh.write(file.file.read())
     print("file upload completed")
     #chunking
-    cleaned_data=data_parser(file_path)
-    chunks=chunk_generator(cleaned_data, new_file_name)
-    print("chunking successful")
+    try:
+        cleaned_data=data_parser(file_path)
+        chunks=chunk_generator(cleaned_data, new_file_name)
+        print("chunking successful")
+    except:
+        folder = Path("uploads")
+        file_path= folder / file_name
+        file_path.unlink()
+        raise HTTPException(status_code=422, detail="Document contains no extractable text")
+    
 
     #embedding
     embeddings=create_embeddings(chunks)

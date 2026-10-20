@@ -12,18 +12,18 @@
     "id": "TC-02",
     "category": "Session",
     "name": "POST /session-create creates new session",
-    "passed": false,
-    "status_code": 500,
-    "details": "Response: Internal Server Error, Session ID allocated: None",
+    "passed": true,
+    "status_code": 200,
+    "details": "Response: {\"message\":\"session successfully created\",\"session_id\":2702}, Session ID allocated: 2702",
     "bug_found": null
   },
   {
     "id": "TC-03",
     "category": "Session [Edge]",
     "name": "DELETE /session-delete with invalid ID returns 404",
-    "passed": false,
-    "status_code": 500,
-    "details": "Internal Server Error",
+    "passed": true,
+    "status_code": 404,
+    "details": "{\"detail\":\"session not found\"}",
     "bug_found": null
   },
   {
@@ -49,9 +49,9 @@
     "category": "Upload [Edge]",
     "name": "POST /upload with 0-byte PDF handled",
     "passed": true,
-    "status_code": 500,
-    "details": "Internal Server Error",
-    "bug_found": "PyMuPDF throws FileDataError (500) before chunk_generator guard is reached"
+    "status_code": 422,
+    "details": "{\"detail\":\"Document contains no extractable text\"}",
+    "bug_found": null
   },
   {
     "id": "TC-07",
@@ -60,7 +60,7 @@
     "passed": true,
     "status_code": 500,
     "details": "Internal Server Error",
-    "bug_found": "Unhandled 500 server crash on corrupt PDF instead of HTTP 400"
+    "bug_found": "Unhandled 500 server crash on corrupt PDF instead of HTTP 400 or 422"
   },
   {
     "id": "TC-08",
@@ -93,9 +93,54 @@
     "id": "TC-11",
     "category": "Ask [Edge]",
     "name": "POST /ask with invalid session_id returns 404",
-    "passed": false,
-    "status_code": 500,
-    "details": "Internal Server Error",
+    "passed": true,
+    "status_code": 404,
+    "details": "{\"detail\":\"session not found\"}",
+    "bug_found": null
+  },
+  {
+    "id": "TC-12",
+    "category": "Ask [Edge]",
+    "name": "POST /ask with empty include_pdf: [] handled gracefully",
+    "passed": true,
+    "status_code": 200,
+    "details": "{\"answer\":\"The available documents do not contain information about the company's profile.\",\"citations\":[]}",
+    "bug_found": null
+  },
+  {
+    "id": "TC-13",
+    "category": "Ask [Edge]",
+    "name": "POST /ask with non-existent PDF name returns 404",
+    "passed": true,
+    "status_code": 404,
+    "details": "{\"detail\":\"file not found, select valid options from uploaded pdfs\"}",
+    "bug_found": null
+  },
+  {
+    "id": "TC-14",
+    "category": "Ask",
+    "name": "POST /ask happy path RAG response (latency: 4.94s)",
+    "passed": true,
+    "status_code": 200,
+    "details": "{\"answer\":\"## Asterion Labs Location\\n\\n- **Based in:** Pune, India\\n- **Headquarters address:** 18 Meridian Works, Baner Road, Pune 411045.\",\"citations\":[{\"source_text\":\"Asterion Labs is a fictional software company based in Pune, India.\",\"file_name\":\"Test_Asterion_Pipeline.pdf\",\"page\":1},{\"source_",
+    "bug_found": null
+  },
+  {
+    "id": "TC-15",
+    "category": "Ask [Multi-Turn]",
+    "name": "POST /ask updates session history and running summary",
+    "passed": true,
+    "status_code": 200,
+    "details": "Chats logged: 3, Summary: User seeks information about Asterion Labs. No profile details available. The company is based in Pu",
+    "bug_found": null
+  },
+  {
+    "id": "TC-16",
+    "category": "Ask [Hallucination Test]",
+    "name": "POST /ask with off-topic question tests reranker filter & grounding",
+    "passed": true,
+    "status_code": 200,
+    "details": "{\"answer\":\"## Jupiter\u2019s Moons\\n\\nJupiter is the planet with the most known natural satellites in the Solar System. As of the latest counts, **Jupiter has 95 confirmed moons**. The largest of these is Ganymede, which is even bigger than the planet Mercury.\\n\\n## Quantum Entanglement\\n\\nQuantum entang",
     "bug_found": null
   },
   {
@@ -123,6 +168,15 @@
     "passed": true,
     "status_code": 200,
     "details": "{\"detail\":\"File deleted successfully\",\"file_name\":\"Test_Asterion_Pipeline.pdf\"}",
+    "bug_found": null
+  },
+  {
+    "id": "TC-20",
+    "category": "Session",
+    "name": "DELETE /session-delete successfully cleans up test session",
+    "passed": true,
+    "status_code": 200,
+    "details": "{\"message\":\"session successfully deleted\",\"session_id\":2702}",
     "bug_found": null
   }
 ]

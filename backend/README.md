@@ -22,9 +22,9 @@
 
 > [!TIP]
 > For a comprehensive, step-by-step deep dive into all backend subsystems, see:
-> 
+>
 > 👉 **[ARCHITECTURE.md](./ARCHITECTURE.md) — The Complete Backend Architecture & Systems Manual**
-> 
+>
 > - **1. The Master Flow:** Complete flowchart from PDF upload to grounded answer and UI sync.
 > - **2. `/upload` Structured Flow:** Step-by-step ingestion, layout parsing, font-hierarchy math, and Qdrant collection upsert.
 > - **3. `/ask` Structured Flow:** Multi-query expansion, Qdrant vector retrieval, MS-MARCO reranking, grounded synthesis, and rolling memory.
@@ -36,6 +36,7 @@
 ## ⚡ Quickstart
 
 ### 1. Environment Setup
+
 ```bash
 # Windows
 python -m venv venv
@@ -50,6 +51,7 @@ pip install -r requirements.txt
 ```
 
 ### 2. Environment Variables (`.env`)
+
 ```env
 GROQ_API_KEY="your-groq-api-key"
 QDRANT_URL="https://your-cluster.qdrant.io"
@@ -57,14 +59,18 @@ QDRANT_API_KEY="your-qdrant-api-key"
 ```
 
 ### 3. Launch Server
+
 ```bash
 uvicorn main:app --reload --port 8001
 ```
+
 Interactive docs will be available at:
+
 - **Swagger UI:** `http://localhost:8001/docs`
 - **ReDoc:** `http://localhost:8001/redoc`
 
 ### 4. Run Automated Test Suite
+
 ```bash
 python api_flow_tests/run_all_tests.py
 ```
@@ -80,4 +86,5 @@ python api_flow_tests/run_all_tests.py
 - [`services/retrieval.py`](./services/retrieval.py) — Groq multi-query expansion, Qdrant vector retrieval, cross-encoder neural reranking, grounded synthesis, and rolling chat summarizer.
 - [`data/`](./data/) — JSON state persistence (`all_pdfs.json`, `all_sessions.json`).
 - [`uploads/`](./uploads/) — Safe filesystem storage for uploaded PDF documents.
-- [`api_flow_tests/`](./api_flow_tests/) — 19-scenario automated test suite.
+- [`test/`](./test/) — Synthetic evaluation PDFs & sample documents for test suites.
+- [`api_flow_tests/`](./api_flow_tests/) — 20-scenario automated integration & edge-case test suite.

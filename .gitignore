@@ -35,10 +35,17 @@ pnpm-debug.log*
 # ==========================================
 # Runtime Uploads & State Backups
 # ==========================================
-uploads/*.pdf
-backend/uploads/*.pdf
-!uploads/.gitkeep
+
+backend/uploads/
+backend/data/
+backend/temp/
 !backend/uploads/.gitkeep
+!backend/data/.gitkeep
+!backend/temp/.gitkeep
+usable_docs/
+!usable_docs/.gitkeep
+Test_Implementation_Plan.md
+backend/test
 
 # ==========================================
 # Operating System & IDE Files
